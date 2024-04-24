@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($_SESSION['userType'] === 'admin') {
                 header("Location: admin-dashboard.php"); // Redirect to the admin dashboard
             } else {
-                header("Location: home.php"); // Redirect to the home page
+                header("Location: Home.php"); // Redirect to the home page
             }
             exit;
         } else {

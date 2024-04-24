@@ -19,7 +19,7 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="home.php">HOME</a>
+                    <a class="nav-link" href="Home.php">HOME</a>
                 </li>
                 <?php if(!isset($_SESSION['loggedin']) || !$_SESSION['loggedin']): ?>
                     <li class="nav-item">
