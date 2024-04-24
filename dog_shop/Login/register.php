@@ -21,11 +21,13 @@
                         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
                         $email = $_POST['email'];
                         $address = $_POST['address'];
-                        $userType = 'user';  // Default to 'user'
+                        $userType = $_POST['userType'];  // Capture user type from form
+                        $annualIncome = $_POST['annualIncome'];
+                        $numberOfPets = $_POST['numberOfPets'];
 
-                        $sql = "INSERT INTO UserTable (Username, FirstName, LastName, Password, Email, Address, UserType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO UserTable (Username, FirstName, LastName, Password, Email, Address, UserType, AnnualIncome, NumberOfPetsAtHome) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("sssssss", $username, $firstName, $lastName, $password, $email, $address, $userType);
+                        $stmt->bind_param("sssssssd", $username, $firstName, $lastName, $password, $email, $address, $userType, $annualIncome, $numberOfPets);
                         $stmt->execute();
 
                         if ($stmt->affected_rows > 0) {
@@ -64,6 +66,21 @@
                         <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userType">User Type</label>
+                            <select class="form-control" id="userType" name="userType">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="annualIncome">Annual Income</label>
+                            <input type="number" class="form-control" id="annualIncome" name="annualIncome">
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfPets">Number of Pets at Home</label>
+                            <input type="number" class="form-control" id="numberOfPets" name="numberOfPets">
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
