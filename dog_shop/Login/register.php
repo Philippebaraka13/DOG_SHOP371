@@ -27,7 +27,7 @@
 
                         $sql = "INSERT INTO UserTable (Username, FirstName, LastName, Password, Email, Address, UserType, AnnualIncome, NumberOfPetsAtHome) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("sssssssd", $username, $firstName, $lastName, $password, $email, $address, $userType, $annualIncome, $numberOfPets);
+                        $stmt->bind_param("sssssssii", $username, $firstName, $lastName, $password, $email, $address, $userType, $annualIncome, $numberOfPets);
                         $stmt->execute();
 
                         if ($stmt->affected_rows > 0) {

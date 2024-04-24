@@ -16,34 +16,41 @@
                 </div>
                 <div class="card-body">
                     <?php
-                    include 'db.php';  // Ensure db.php path is correct
-                    session_start();
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        $username = $_POST['username'];
-                        $password = $_POST['password'];
-                        $sql = "SELECT UserID, Password FROM UserTable WHERE Username = ?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("s", $username);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        if ($row = $result->fetch_assoc()) {
-                            if (password_verify($password, $row['Password'])) {
-                                $_SESSION['loggedin'] = true;
-                                $_SESSION['userID'] = $row['UserID'];
-                                $_SESSION['username'] = $username;
-                                header("Location: welcome.php"); // Redirect to a welcome or dashboard page
-                                exit;
-                            } else {
-                                echo '<div class="alert alert-danger" role="alert">Invalid password.</div>';
-                            }
-                        } else {
-                            echo '<div class="alert alert-danger" role="alert">Username does not exist.</div>';
-                        }
-                        $stmt->close();
-                    }
-                    $conn->close();
-                    ?>
+include 'db.php';  // Ensure db.php path is correct
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    // Modified SQL to select the UserType as well
+    $sql = "SELECT UserID, Password, UserType FROM UserTable WHERE Username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        if (password_verify($password, $row['Password'])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['userID'] = $row['UserID'];
+            $_SESSION['username'] = $username;
+            $_SESSION['userType'] = $row['UserType'];  // Store user type in session
 
+            // Redirect to the appropriate dashboard based on user type
+            if ($_SESSION['userType'] === 'admin') {
+                header("Location: admin-dashboard.php"); // Redirect to the admin dashboard
+            } else {
+                header("Location: home.php"); // Redirect to the home page
+            }
+            exit;
+        } else {
+            echo '<div class="alert alert-danger" role="alert">Invalid password.</div>';
+        }
+    } else {
+        echo '<div class="alert alert-danger" role="alert">Username does not exist.</div>';
+    }
+    $stmt->close();
+}
+$conn->close();
+?>
                     <form method="post" action="">
                         <div class="form-group">
                             <label for="username">Username</label>
