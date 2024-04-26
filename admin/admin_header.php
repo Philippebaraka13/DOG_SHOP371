@@ -1,14 +1,3 @@
-<?php
-session_start(); // Start the session to access session variables
-
-// Check if the user is logged in and is an admin
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['userType'] !== 'admin') {
-    header('Location: login.php');
-    exit;
-}
-
-$username = $_SESSION['username'] ?? 'Admin'; // Fallback to 'Admin' if username is not set
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +15,10 @@ $username = $_SESSION['username'] ?? 'Admin'; // Fallback to 'Admin' if username
             <img src="images/doglogo.jpeg" alt="doglogo" width="80" height="60">
             Admin Dashboard
         </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="admin-add-dog.php">Add a Dog</a>
@@ -44,18 +36,3 @@ $username = $_SESSION['username'] ?? 'Admin'; // Fallback to 'Admin' if username
         </div>
     </div>
 </nav>
-    
-<main class="container mt-4">
-    <h1 class="text-center mb-4">Welcome, <?= htmlspecialchars($username); ?></h1>
-    <!-- Admin functionalities could be listed here -->
-</main>
-    
-<footer class="footer mt-auto py-3 bg-primary text-center">
-    <div class="container">
-        <span> CSCI-371 Published by: Seid Ahmed & Philippe Baraka ©2024</span>
-    </div>
-</footer>
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
